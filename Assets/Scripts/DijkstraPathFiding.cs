@@ -24,6 +24,8 @@ public class DijkstraPathFiding : MonoBehaviour
         // Initialisation de variables
         distances = new List<float>();
         previousIndexes = new List<float>();
+        // Exécution de l'algorithme de pathfinding
+        PathFinding();
     }
 
     // Fonction principale
@@ -34,8 +36,14 @@ public class DijkstraPathFiding : MonoBehaviour
         while(cellsCopy.Count > 0)
         {
             int sommet1 = minimumCell(cellsCopy);
+            Cell cell = cellsCopy[sommet1];
             cellsCopy.RemoveAt(sommet1);
             // A RAJOUTER - LES VOISINS
+            foreach(Cell neighbour in grid.neighBours(cell))
+            {
+                int sommet2 = neighbour.id;
+                updateDistances(sommet1, sommet2);
+            }
         }
     }
 

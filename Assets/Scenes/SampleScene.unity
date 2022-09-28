@@ -235,6 +235,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grid
       objectReference: {fileID: 0}
+    - target: {fileID: 2893019617090379450, guid: 8dd27cc8a43fb7d4ca25eb75b7e0af01, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dd27cc8a43fb7d4ca25eb75b7e0af01, type: 3}
 --- !u!1 &396560535 stripped
@@ -256,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 10
   cols: 20
-  startingCellPosition: {x: 0, y: 0, z: 0}
+  startingCellPosition: {x: -12.97, y: 4.48, z: 0}
   tile: {fileID: 3896836636144403653, guid: 5c913d10c6bd36749aff664ebda34ee4, type: 3}
 --- !u!1 &519420028
 GameObject:
@@ -412,7 +416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1415068842061105215, guid: d2dbe67d5f5879446982049cc0104156, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.38
+      value: -12.97
       objectReference: {fileID: 0}
     - target: {fileID: 1415068842061105215, guid: d2dbe67d5f5879446982049cc0104156, type: 3}
       propertyPath: m_LocalPosition.y
@@ -463,6 +467,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3336749608107513526, guid: 5c913d10c6bd36749aff664ebda34ee4, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336749608107513526, guid: 5c913d10c6bd36749aff664ebda34ee4, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -514198305
+      objectReference: {fileID: 0}
     - target: {fileID: 3896836636144403653, guid: 5c913d10c6bd36749aff664ebda34ee4, type: 3}
       propertyPath: m_Name
       value: CellTile
