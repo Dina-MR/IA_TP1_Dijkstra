@@ -5,9 +5,10 @@ using static GridGenerator;
 
 public class DijkstraPathFiding : MonoBehaviour
 {
-    // Variables liées au personnage et sa cible
-    public GameObject character;
+    // Cible & id de départ 
     public GameObject target;
+    PlayerMovement targetMove;
+    public int startingId = 0;
 
     // Variables liées à la grille
     public GameObject gridObject;
@@ -24,8 +25,21 @@ public class DijkstraPathFiding : MonoBehaviour
         // Initialisation de variables
         distances = new List<float>();
         previousIndexes = new List<float>();
+        // Récupération du script de mouvement du joueur
+        targetMove = target.GetComponent<PlayerMovement>();
         // Exécution de l'algorithme de pathfinding
-        PathFinding();
+        if (grid.isListFull)
+        {
+            Debug.Log("Parcours !");
+            PathFinding(startingId);
+        }
+    }
+
+    private void Update()
+    {
+        // Exécution de l'algorithme de pathfinding, qui se remet à jour dès que la cible bouge
+        //if (grid.isListFull && targetMove.isMoving)
+        //    PathFinding(startingId);
     }
 
     // Fonction principale
@@ -38,13 +52,15 @@ public class DijkstraPathFiding : MonoBehaviour
             int sommet1 = minimumCell(cellsCopy);
             Cell cell = cellsCopy[sommet1];
             cellsCopy.RemoveAt(sommet1);
-            // A RAJOUTER - LES VOISINS
             foreach(Cell neighbour in grid.neighBours(cell))
             {
                 int sommet2 = neighbour.id;
                 updateDistances(sommet1, sommet2);
+                Debug.Log("Sommet 2");
             }
         }
+        //List<Cell> path = new List<Cell>();
+
     }
 
     // Fonction d'intialisation des distances
@@ -52,9 +68,16 @@ public class DijkstraPathFiding : MonoBehaviour
     {
         foreach(GridGenerator.Cell cell in grid.gridCells)
         {
-            distances[cell.id] = float.MaxValue; 
+            distances.Add(float.MaxValue);
+            Debug.Log("Id courant " + cell.id);
         }
         distances[characterIndex] = 0;
+        // Déboggage pour le nombre de distances
+        Debug.Log("Taille de la liste distance : " + distances.Count);
+        // Copie de la liste distances dans previousIndexes
+        previousIndexes = distances;
+        // Positionnement de l'ennemi
+        transform.position = grid.gridCells[startingId].position;
     }
 
     // Recherche de la cellule de distance minimale
@@ -66,7 +89,7 @@ public class DijkstraPathFiding : MonoBehaviour
         {
             if (distances[cell.id] < minimum)
             {
-                minimum = distances[sommet];
+                minimum = distances[cell.id];
                 sommet = cell.id;
             }
         }
@@ -76,12 +99,20 @@ public class DijkstraPathFiding : MonoBehaviour
     // Mise à jour des distances
     void updateDistances(int sommet1, int sommet2)
     {
+        Debug.Log("Sommet 1 :" + sommet1);
+        Debug.Log("Sommet 2 :" + sommet2);
         float poids = grid.getCellsDistance(sommet1, sommet2);
         if (distances[sommet2] > distances[sommet1] + poids)
         {
             distances[sommet2] = distances[sommet1] + poids;
             previousIndexes[sommet2] = sommet1;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Floor"))
+            Debug.Log("Ok");
     }
 
     // Récupération de l'id de la cellule dans laquelle se trouve le perso
