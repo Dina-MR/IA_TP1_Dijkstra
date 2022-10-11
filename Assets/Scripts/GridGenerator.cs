@@ -5,8 +5,7 @@ using UnityEngine;
 public class GridGenerator : MonoBehaviour
 {
     // Nombre de tiles par ligne et colonne
-    public int rows;
-    public int cols;
+    public int rows, cols;
     // Coordonnées de départ de la grille, correspondant à la 1ère cellule
     public Vector3 startingCellPosition;
     [SerializeField]
@@ -25,6 +24,9 @@ public class GridGenerator : MonoBehaviour
     public List<Cell> gridCells;
     // Etat de la liste
     public bool isListFull = false;
+
+    // Sommets de départ et d'arrivée, pour le pathfinding
+    public int startId, targetId;
 
     // Start is called before the first frame update
     void Awake()
@@ -154,6 +156,18 @@ public class GridGenerator : MonoBehaviour
             //cellTile.layer = _tileLayer;
             //// Position du calque dédié
             //cellTile.GetComponent<Renderer>().sortingOrder = _tileLayer;
+        }
+
+        void OnTrigger2DEnter(Collision collision)
+        {
+            if(collision.CompareTag("Player"))
+            {
+                GridGenerator.targetId = this.id;
+            }
+            if (collision.CompareTag("Enemy"))
+            {
+                GridGenerator.startId = this.id;
+            }
         }
     }
 
