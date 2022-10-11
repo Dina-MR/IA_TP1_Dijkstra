@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static GridGenerator;
 
 public class GridGenerator : MonoBehaviour
 {
@@ -42,7 +44,8 @@ public class GridGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        updateStart();
+        updateGoal();
     }
 
     // Ajout & affichage des cellules
@@ -75,9 +78,9 @@ public class GridGenerator : MonoBehaviour
     }
 
     // Distance entre deux Cellules
-    public float getCellsDistance(int cellIndex1, int cellIndex2)
+    public float getCellsDistance(List<Cell> _gridCells, int cellIndex1, int cellIndex2)
     {
-        return Vector3.Distance(gridCells[cellIndex1].position, gridCells[cellIndex2].position);
+        return Vector3.Distance(_gridCells[cellIndex1].position, _gridCells[cellIndex2].position);
     }
 
     // Voisins d'une cellule
@@ -123,8 +126,26 @@ public class GridGenerator : MonoBehaviour
         return neighBours;
     }
 
+    // Mise à jour du sommet de départ
+    void updateStart()
+    {
+        int newStart = -1;
+        newStart = gridCells.FindIndex(cell => cell.cellTile.GetComponent<TileCollision>().isStart == true);
+        if (newStart > -1)
+            startId = newStart;
+    }
+
+    // Mise à jour du sommet d'arrivée
+    void updateGoal()
+    {
+        int newGoal = -1;
+        newGoal = gridCells.FindIndex(cell => cell.cellTile.GetComponent<TileCollision>().isGoal == true);
+        if (newGoal > -1)
+            targetId = newGoal;
+    }
+
     //Classe représentant une cellule de la grille
-    public class Cell
+    public class Cell : MonoBehaviour
     {
         // Identifiant de la cellule
         public int id;
@@ -137,6 +158,9 @@ public class GridGenerator : MonoBehaviour
         public GameObject cellTile;
         // Catégorie de la cellule
         public Category category;
+        // Indique si le joueur et/ou l'ennemi se trouve sur cette cellule
+        public bool isStart = false;
+        public bool isGoal = false;
 
         public Cell(int _id, int _x, int _y, Vector3 _startingCellPosition, GameObject _tile, Category _category)
         {
@@ -158,16 +182,10 @@ public class GridGenerator : MonoBehaviour
             //cellTile.GetComponent<Renderer>().sortingOrder = _tileLayer;
         }
 
-        void OnTrigger2DEnter(Collision collision)
+        // Changement de couleur à des fins d'analyse
+        public void changeColor(Color _color)
         {
-            if(collision.CompareTag("Player"))
-            {
-                GridGenerator.targetId = this.id;
-            }
-            if (collision.CompareTag("Enemy"))
-            {
-                GridGenerator.startId = this.id;
-            }
+            cellTile.GetComponent<Renderer>().material.color = _color;
         }
     }
 

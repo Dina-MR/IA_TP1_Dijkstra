@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 178767853039347850}
   - component: {fileID: -6251712378345311516}
   - component: {fileID: 8014539582800637204}
+  - component: {fileID: -7231571120844354888}
   m_Layer: 6
   m_Name: WallTile
   m_TagString: Wall
@@ -133,7 +134,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.011374056, y: 0.0045496225}
@@ -149,3 +150,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1410376, y: 1.1364882}
   m_EdgeRadius: 0
+--- !u!114 &-7231571120844354888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3896836636144403653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf42e91330e9d204b92179b3417de6fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isStart: 0
+  isGoal: 0

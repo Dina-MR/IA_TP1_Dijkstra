@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static GridGenerator;
 
@@ -51,11 +52,13 @@ public class DijkstraPathFiding : MonoBehaviour
         {
             int sommet1 = minimumCell(cellsCopy);
             Cell cell = cellsCopy[sommet1];
+            //Coloration de la cellule en cours d'analyse
+            cell.changeColor(Color.cyan);
             cellsCopy.RemoveAt(sommet1);
             foreach(Cell neighbour in grid.neighBours(cell))
             {
                 int sommet2 = neighbour.id;
-                updateDistances(sommet1, sommet2);
+                updateDistances(cellsCopy, sommet1, sommet2);
                 Debug.Log("Sommet 2");
             }
         }
@@ -97,12 +100,13 @@ public class DijkstraPathFiding : MonoBehaviour
     }
 
     // Mise à jour des distances
-    void updateDistances(int sommet1, int sommet2)
+    void updateDistances(List<Cell> _cellsList, int sommet1, int sommet2)
     {
         Debug.Log("Sommet 1 :" + sommet1);
         Debug.Log("Sommet 2 :" + sommet2);
-        float poids = grid.getCellsDistance(sommet1, sommet2);
-        if (distances[sommet2] > distances[sommet1] + poids)
+        float poids = float.MaxValue;
+        poids = grid.getCellsDistance(_cellsList, sommet1, sommet2);
+        if (distances[sommet2] > distances[sommet1] + poids && sommet2 < _cellsList.Count)
         {
             distances[sommet2] = distances[sommet1] + poids;
             previousIndexes[sommet2] = sommet1;
